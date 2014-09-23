@@ -1,4 +1,4 @@
-#!/usr/bin/env/python
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
 from jinja2 import Environment, PackageLoader
@@ -33,8 +33,8 @@ def main():
         file.write(content)
         file.close()
         print "Your file is generated: %s" % filename
-    except IOError:
-        print IOError
+    except IOError as e:
+        print e
 
 if __name__ == '__main__':
     main()
