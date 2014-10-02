@@ -4,9 +4,12 @@
 from jinja2 import Environment, PackageLoader
 import sys
 
-env = Environment(loader=PackageLoader('generator', 'templates'))
 
-template = env.get_template('redis.conf')
+
+def render_config(env, port, db_number, db_id, password):
+    template = env.get_template('redis.conf')
+    return template.render(port = port, db_number = db_number, db_id = db_id, password = password)
+
 
 def main():
     if len(sys.argv) != 5:
@@ -20,13 +23,15 @@ def main():
         print ''
         sys.exit(1)
 
+    env = Environment(loader=PackageLoader('generator', 'templates'))
+
     db_id = int(sys.argv[1])
     port = sys.argv[2]
     db_number = sys.argv[3]
     password = sys.argv[4]
     filename = "configurations/%i.conf" % db_id
 
-    content = template.render(port = port, db_number = db_number, db_id = db_id, password = password)
+    content = render_config(env, port, db_number, db_id, password)
 
     try:
         file = open(filename, "w")
